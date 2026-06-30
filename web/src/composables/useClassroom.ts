@@ -1,4 +1,4 @@
-import { computed, onUnmounted, ref } from 'vue'
+import { computed, nextTick, onUnmounted, ref } from 'vue'
 import AgoraRTC, {
   type IAgoraRTCClient,
   type IAgoraRTCRemoteUser,
@@ -164,8 +164,11 @@ export function useClassroom(orderId: string, role: 'user' | 'mentor' = 'user') 
   async function playRemote(user: IAgoraRTCRemoteUser, mediaType: 'video' | 'audio') {
     if (!client) return
     await client.subscribe(user, mediaType)
-    if (mediaType === 'video' && remoteVideoRef.value && user.videoTrack) {
-      user.videoTrack.play(remoteVideoRef.value)
+    if (mediaType === 'video' && user.videoTrack) {
+      if (!remoteVideoRef.value) await nextTick()
+      if (remoteVideoRef.value) {
+        user.videoTrack.play(remoteVideoRef.value)
+      }
     }
     if (mediaType === 'audio' && user.audioTrack) {
       user.audioTrack.play()
@@ -202,6 +205,7 @@ export function useClassroom(orderId: string, role: 'user' | 'mentor' = 'user') 
     try {
       localAudio = await AgoraRTC.createMicrophoneAudioTrack()
       localVideo = await AgoraRTC.createCameraVideoTrack()
+      if (!localVideoRef.value) await nextTick()
       if (localVideoRef.value) {
         localVideo.play(localVideoRef.value)
       }
@@ -232,6 +236,7 @@ export function useClassroom(orderId: string, role: 'user' | 'mentor' = 'user') 
       }
       startHeartbeat()
       inRoom.value = true
+      await nextTick()
 
       if (joinInfo.mock_mode) {
         return
