@@ -13,7 +13,8 @@ node_modules/
 # Go
 backend/tmp/
 
-# IDE
+# IDE / Cursor
+.cursor/
 .idea/
 .vscode/
 
