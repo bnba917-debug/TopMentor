@@ -1,0 +1,14 @@
+# 与 docker-compose.prod.yml 叠加使用，用于 IP 直连 HTTP 测试
+# 用法: docker compose -f docker-compose.prod.yml -f docker-compose.staging.yml up -d
+
+services:
+  caddy:
+    ports:
+      - "80:80"
+      - "8081:8081"
+    volumes:
+      - ./deploy/Caddyfile.staging:/etc/caddy/Caddyfile:ro
+      - ./web/dist:/srv/web:ro
+      - ./admin/dist:/srv/admin:ro
+      - caddy_data:/data
+      - caddy_config:/config

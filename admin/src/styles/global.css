@@ -1,0 +1,32 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: #f5f7fa;
+  color: #303133;
+}
+
+#app {
+  min-height: 100vh;
+}
+
+.page-card {
+  background: #fff;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #409eff;
+}
+
+.stat-label {
+  margin-top: 6px;
+  color: #909399;
+  font-size: 14px;
+}

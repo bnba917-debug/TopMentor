@@ -1,0 +1,35 @@
+# IP / HTTP 测试用（无 HTTPS）
+# H5:    http://服务器IP/
+# 后台:  http://服务器IP:8081/
+
+:80 {
+	encode gzip
+
+	handle /api/* {
+		reverse_proxy api:8080
+	}
+
+	handle /uploads/* {
+		reverse_proxy api:8080
+	}
+
+	handle {
+		root * /srv/web
+		try_files {path} /index.html
+		file_server
+	}
+}
+
+:8081 {
+	encode gzip
+
+	handle /api/* {
+		reverse_proxy api:8080
+	}
+
+	handle {
+		root * /srv/admin
+		try_files {path} /index.html
+		file_server
+	}
+}

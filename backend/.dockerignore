@@ -1,0 +1,6 @@
+.git
+*.log
+uploads/
+**/*_test.go
+cmd/profile-test/
+cmd/agora-check/
